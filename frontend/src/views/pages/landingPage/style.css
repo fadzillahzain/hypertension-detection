@@ -1,0 +1,22 @@
+.img-carousel{
+   opacity: 0.2;
+}
+
+.title{
+    display: flex;
+    position: absolute;
+    right: auto;
+    top: 1px;
+    padding-top: 1.25rem;
+    padding-left: 1rem;
+    color: #fff;
+    text-align: start;
+    font-size: 20px;
+    width: 100%;
+}
+
+.corousel-nav-item{
+    border-bottom:'1px solid #000';
+    border-top:'1px solid #000';
+    cursor:'pointer';
+}
