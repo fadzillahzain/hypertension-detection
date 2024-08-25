@@ -2,6 +2,8 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 import { 
   getDashboard, 
+  getPenyakit, 
+  getPenyakitById, 
   getRekamMedis, 
   getRekamMedisById, 
   getUser, 
@@ -55,11 +57,11 @@ export function useUserById(id){
   })
 }
 
-export function usePenyakitPages(limit,page,filter) {
+export function usePenyakitPages(page) {
   // console.log("hook =========> page " +page+" limit : "+limit+" filter : "+filter);
   return useQuery({
-    queryKey: ['penyakit', {limit,page,filter}],
-    queryFn: () => getPenyakit(limit,page,filter),
+    queryKey: ['penyakit', page],
+    queryFn: () => getPenyakit(page),
     placeholderData: keepPreviousData,
   });
 }
@@ -67,7 +69,7 @@ export function usePenyakitPages(limit,page,filter) {
 export function usePenyakitById(id){
   return useQuery({
     queryKey: ['penyakitbyId', id],
-    queryFn: () => getRekamMedisById(id),
+    queryFn: () => getPenyakitById(id),
   })
 }
 

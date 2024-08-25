@@ -6,14 +6,13 @@ const DefaultLayout = () => {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );  
-  
   const [islogin, setislogin] = useState(
     JSON.parse(localStorage.getItem("islogin")) || false
   ); 
   const layout = () => {
     return (
       <div>
-        {currentUser && currentUser.user.role === "2012" ? <AppSidebarMember /> : <AppSidebar />}
+        {currentUser && currentUser.user.role === "1945" ?  <AppSidebar /> :<AppSidebarMember /> }
         <div className="wrapper d-flex flex-column min-vh-100">
           <AppHeader />
           <div className="body flex-grow-1">

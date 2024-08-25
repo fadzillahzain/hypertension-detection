@@ -8,44 +8,37 @@ import {
 } from '@coreui/react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useVideoById } from '../../../../hooks/queries'
-import { editVideo } from '../../../../services/api'
-import EditMateriForm from './EditFormMateri'
+import EditForm from './EditForm'
+import { usePenyakitById } from '../../../hooks/queries'
+import { editPenyakit } from '../../../services/api'
 
-const EditVideoMateri = () => {
+const EditPenyakit= () => {
     const [err, setErr] = useState(null);
     
     const navigate = useNavigate()
-    // const [input, setInputs] = useState({
-    //     name : "",
-    //     about : ""
-    // });
-    // const handleChange = (e) => {
-    //     setInputs((prev) => ({...prev, [e.target.name] : e.target.value}));
-    //   };
     const queryClient = useQueryClient()
 
     const { id } = useParams()
-    const { isPending, isError, data: materi, error, isFetching, isPlaceholderData } = useVideoById(id)
+    const { isPending, isError, data: response, error, isFetching, isPlaceholderData } = usePenyakitById(id)
     const updateMateriMutation = useMutation({
-        mutationFn: editVideo,
+        mutationFn: editPenyakit,
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['video'] })
-          navigate('/guru/video')
+          queryClient.invalidateQueries({ queryKey: ['editPenyakit'] })
+          navigate('/penyakit')
         },
         onError:(err) => {
-            console.log(err.response.data.msg)
+            console.log(err.response.data)
         }
     })
-    const handleSubmit = async (updatedVideo) => {
-        updateMateriMutation.mutate({ id, ...updatedVideo})
+    const handleSubmit = async (updatedData, solusi) => {
+        updateMateriMutation.mutate({ id, ...updatedData, solusi})
     };
   return (
     <CRow>
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>Edit Video</strong>
+            <strong>Edit Penyakit</strong>
           </CCardHeader>
           <CCardBody>
             
@@ -53,9 +46,9 @@ const EditVideoMateri = () => {
             ) : isError ? (
               <div>Error: {error.message}</div>
             ) : (
-              <EditMateriForm onsubmit={handleSubmit} initialValue={materi} />     
+              <EditForm onsubmit={handleSubmit} initialValue={response} />     
           )}
-          {isFetching ? <span> Loading...</span> : null}{' '}
+          {isFetching ? <span> Fetching...</span> : null}{' '}
           </CCardBody>
         </CCard>
       </CCol>
@@ -63,4 +56,4 @@ const EditVideoMateri = () => {
   )
 }
 
-export default EditVideoMateri
+export default EditPenyakit

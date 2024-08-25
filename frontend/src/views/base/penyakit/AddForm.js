@@ -11,44 +11,53 @@ import {
   CFormTextarea,
   CRow,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilFile, cilBadge, cilPencil, cilTrash, cilStorage } from '@coreui/icons'
-import {makeRequest} from '../../../../axios'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createMateri, createVideo } from '../../../../services/api'
+import { createPenyakit } from '../../../services/api'
+import CIcon from '@coreui/icons-react'
+import { cilMinus, cilPlus, cilTrash } from '@coreui/icons'
 
-const AddMateri = () => {
+const AddForm = () => {
     const [err, setErr] = useState(null);
-    const [file, setFile] = useState(null)
     const navigate = useNavigate()
     const [input, setInputs] = useState({
+        kode : "",
         name : "",
-        about : "",
-        link : ""
+        deskripsi : "",
     });
+    const [solusi, setSolusis] = useState([]);
+    const [dataSolusi, setDataSolusis] = useState("");
     const handleChange = (e) => {
-        console.log(input);
         setInputs((prev) => ({...prev, [e.target.name] : e.target.value}));
       };
+    const handleAddSolusi = (e) => {
+        setSolusis((prev) => [...prev, dataSolusi ]);
+        setDataSolusis("");
+    };
+    const handleDelSolusi = (arr) => {
+        const temp = [...solusi];
+        temp.splice(solusi.indexOf(arr), 1)
+        setSolusis(temp)
+        
+    };
     const queryClient = useQueryClient()
 
-    const createMateriMutation = useMutation({
-        mutationFn: createVideo,
+    const createMutation = useMutation({
+        mutationFn: createPenyakit,
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['video'] })
-          navigate('/guru/video')
+          queryClient.invalidateQueries({ queryKey: ['penyakit'] })
+          navigate('/penyakit')
         },
         onError:(err) => {
-            console.log(err.response.data.msg)
+            console.error(err.response.data)
         }
     })
-    const handleSubmit = async (materi) => {
-      createMateriMutation.mutate({...materi})
+    const handleSubmit = async (data, solusi) => {
+      createMutation.mutate({...data, solusi})
       setInputs({
         name: '',
         about: '',
-        link: '',
+        link: ''
       })
     };
   return (
@@ -56,44 +65,72 @@ const AddMateri = () => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>Tambah materi</strong>
+            <strong>Tambah Penyakit</strong>
           </CCardHeader>
           <CCardBody>
-              {/* <AddMateriForm onsubmit={handleSubmit}/> */}
                 <CForm encType='multipart/form-data'>
                     <div className="mb-3">
-                        <CFormLabel htmlFor="judul">Judul</CFormLabel>
+                        <CFormLabel htmlFor="kode">Kode</CFormLabel>
                         <CFormInput
                             type="text"
-                            id="judul"
-                            name='name'
-                            placeholder="ex : Materi Pengenalan Jarkom"
+                            id="kode"
+                            name='kode'
+                            placeholder="Kode Penyakit"
                             onChange={handleChange} required 
                         />
                     </div>
                     <div className="mb-3">
-                        <CFormLabel htmlFor="keterangan">Keterangan</CFormLabel>
+                        <CFormLabel htmlFor="name">Name</CFormLabel>
+                        <CFormInput
+                            type="text"
+                            id="name"
+                            name='name'
+                            placeholder="Nama Penyakit"
+                            onChange={handleChange} required 
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <CFormLabel htmlFor="deskripsi">Deskripsi</CFormLabel>
                         <CFormTextarea 
-                            id="keterangan" 
-                            name='about'
+                            id="deskripsi" 
+                            name='deskripsi'
                             rows={3}
-                            placeholder='Jelaskan secara garis besar apa yang dapat murid ketahui dari belajar materi ini'
+                            placeholder='Deskripsi Penyakit'
                             onChange={handleChange}
                         >
                         </CFormTextarea>
                     </div>
                     <div className="mb-3">
-                        <CFormLabel htmlFor="link">Link Embed Video</CFormLabel>
-                        <CFormInput
-                            type="text"
-                            id="link"
-                            name='link'
-                            placeholder="ex : https://www.youtube.com/embed/###"
-                            onChange={handleChange} required 
-                        />
+                        <CFormLabel htmlFor="link">Solusi</CFormLabel>
+                        <ul>
+                          {solusi.map((dataSolusi,index)=>(
+                            <li key={index}>
+                              {dataSolusi} 
+                              <CIcon icon={cilTrash} onClick={() => {handleDelSolusi(dataSolusi)}} className='text-danger' style={{cursor:'pointer'}}></CIcon>
+                            </li>
+                          ))}
+                        </ul>
+                        <CRow>
+                          <CCol md={10}>
+                            <CFormInput
+                              type="text"
+                              id="solusi"
+                              name='solusi'
+                              placeholder="Solusi Penyakit"
+                              value={dataSolusi}
+                              onChange={(e)=>{setDataSolusis(e.target.value)}} required 
+                          />
+                          </CCol>
+                          <CCol md={2}>
+                            <CButton color="success" onClick={handleAddSolusi}>
+                              <CIcon icon={cilPlus} className='' size='lg'></CIcon> Solusi
+                            </CButton>
+                          </CCol>
+                        </CRow>
                     </div>
+                    <p>{err && err}</p>
                     <div className="d-grid">
-                        <CButton color="primary" onClick={()=>{handleSubmit(input, file)}}>Buat Materi Video</CButton>
+                        <CButton color="info" onClick={()=>{handleSubmit(input,solusi)}}>Simpan</CButton>
                     </div>
                 </CForm>
           </CCardBody>
@@ -103,4 +140,4 @@ const AddMateri = () => {
   )
 }
 
-export default AddMateri
+export default AddForm

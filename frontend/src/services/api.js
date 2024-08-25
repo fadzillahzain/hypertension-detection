@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { makeRequest } from "../axios";
 
-const server = import.meta.env.VITE_SERVER_ADDRESS;
+const user = JSON.parse(localStorage.getItem("user")) || null
 //// TANPA AXIOS
 // const server = import.meta.env.VITE_SERVER_ADDRESS;
 // export async function getRekamMedis() {
@@ -31,7 +32,7 @@ export async function createRekamMedis(newData) {
 }
 
 export async function editRekamMedis(newData) {
-    return (await makeRequest.patch(`/rekamMedis/${newData.id}`,newData)).data
+    return (await makeRequest.put(`/rekamMedis/${newData.id}`,newData)).data
 }
 
 export async function delRekamMedis(id) {
@@ -54,29 +55,27 @@ export async function createUser(newData) {
 }
 
 export async function editUser(newData) {
-    return (await makeRequest.patch(`/user/${newData.id}`,newData)).data
+    return (await makeRequest.put(`/user/${newData.id}`,newData)).data
 }
 
-
-export const getPenyakit = async (limit=5,pageParam = 1,filter='') => {
-    // console.log("api ==========> page " +pageParam+" limit : "+limit+" filter : "+filter);
-    const response = await makeRequest.get(`/Penyakit?page=${pageParam}&limit=${limit}&filter=${filter}`)
+export const getPenyakit = async (page=1) => {
+    const response = await makeRequest.get(`/penyakit?page=${page}`,{headers : {Authorization : `Bearer ${user.token}`}})
     return response.data
 }
 
 export async function getPenyakitById(id) {
-    return (await makeRequest.get(`/Penyakit/${id}`)).data
+    return (await makeRequest.get(`/penyakit/${id}`,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 export async function createPenyakit(newData) {
-    return (await makeRequest.post('/Penyakit', newData)).data
+    return (await makeRequest.post('/penyakit', newData,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 
 export async function editPenyakit(newData) {
-    return (await makeRequest.patch(`/Penyakit/${newData.id}`,newData)).data
+    return (await makeRequest.put(`/penyakit/${newData.id}`,newData,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 
 export async function delPenyakit(id) {
-    return (await makeRequest.delete(`/rekamMedis/${id}`)).data
+    return (await makeRequest.delete(`/penyakit/${id}`,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 
 
@@ -94,7 +93,7 @@ export async function createGejala(newData) {
 }
 
 export async function editGejala(newData) {
-    return (await makeRequest.patch(`/Gejala/${newData.id}`,newData)).data
+    return (await makeRequest.put(`/Gejala/${newData.id}`,newData)).data
 }
 
 export async function delGejala(id) {
@@ -116,7 +115,7 @@ export async function createAturan(newData) {
 }
 
 export async function editAturan(newData) {
-    return (await makeRequest.patch(`/Aturan/${newData.id}`,newData)).data
+    return (await makeRequest.put(`/Aturan/${newData.id}`,newData)).data
 }
 
 export async function delAturan(id) {

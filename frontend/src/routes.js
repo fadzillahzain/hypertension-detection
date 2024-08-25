@@ -10,7 +10,7 @@ const RekamMedisAdd = React.lazy(() => import('./views/base/dataRekamMedis/AddFo
 const RekamMedisEdit = React.lazy(() => import('./views/base/dataRekamMedis/EditForm'))
 const Penyakit = React.lazy(() => import('./views/base/penyakit/ReadAll'))
 const PenyakitAdd = React.lazy(() => import('./views/base/penyakit/AddForm'))
-const PenyakitEdit = React.lazy(() => import('./views/base/penyakit/EditForm'))
+const PenyakitEdit = React.lazy(() => import('./views/base/penyakit/EditPage'))
 const Gejala = React.lazy(() => import('./views/base/gejala/ReadAll'))
 const GejalaAdd = React.lazy(() => import('./views/base/gejala/AddForm'))
 const GejalaEdit = React.lazy(() => import('./views/base/gejala/EditForm'))

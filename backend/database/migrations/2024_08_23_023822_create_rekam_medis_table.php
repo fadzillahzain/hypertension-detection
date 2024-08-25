@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            // $table->foreign('user_id')->references('id')->on('users');
         });
 
         Schema::create('rekam_gejalas', function (Blueprint $table) {
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->unsignedBigInteger('gejala_id');
             $table->timestamps();
 
-            $table->foreign('rekamMedis_id')->references('id')->on('rekam_medis');
-            $table->foreign('gejala_id')->references('id')->on('gejalas');
+            // $table->foreign('rekamMedis_id')->references('id')->on('rekam_medis');
+            // $table->foreign('gejala_id')->references('id')->on('gejalas');
 
         });
         
@@ -37,8 +37,8 @@ return new class extends Migration
             $table->float('nilai');
             $table->timestamps();
 
-            $table->foreign('rekamMedis_id')->references('id')->on('rekam_medis');
-            $table->foreign('penyakit_id')->references('id')->on('penyakits');
+            // $table->foreign('rekamMedis_id')->references('id')->on('rekam_medis');
+            // $table->foreign('penyakit_id')->references('id')->on('penyakits');
 
         });
     }

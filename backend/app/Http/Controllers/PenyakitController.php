@@ -120,9 +120,10 @@ class PenyakitController extends Controller
             return response()->json('data tidak ditemukan', 404);
         };
         $penyakit->update([
-            'code'     => $request->code,
-            'name'   => $request->name,
-            'deskripsi'   => $request->deskripsi,
+            'code'      => $request->code,
+            'name'      => $request->name,
+            'deskripsi' => $request->deskripsi,
+            'solusi'    =>$request->solusi
         ]);
 
         //return response

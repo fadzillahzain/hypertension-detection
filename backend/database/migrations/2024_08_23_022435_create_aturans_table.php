@@ -18,8 +18,8 @@ return new class extends Migration
             $table->float('nilai');   
             $table->timestamps();
 
-            $table->foreign('penyakit_id')->references('id')->on('penyakits');
-            $table->foreign('gejala_id')->references('id')->on('gejalas');
+            // $table->foreign('penyakit_id')->references('id')->on('penyakits');
+            // $table->foreign('gejala_id')->references('id')->on('gejalas');
         });
     }
 

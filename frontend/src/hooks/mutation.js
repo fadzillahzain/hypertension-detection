@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { delRekamMedis } from '../services/api'
+import { delPenyakit, delRekamMedis } from '../services/api'
 
 export function useDeleteRekamMedis() {
   const queryClient = useQueryClient()
