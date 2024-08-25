@@ -66,7 +66,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Kelola Admin',
-    to: '/user',
+    to: '/user/super',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },
   {

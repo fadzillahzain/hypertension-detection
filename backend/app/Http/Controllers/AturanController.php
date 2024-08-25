@@ -20,6 +20,9 @@ class AturanController extends Controller
     {
         //get all data
         $data = DB::table('aturans')
+            ->join('penyakits','aturans.penyakit_id','=','penyakits.id')
+            ->join('gejalas','aturans.gejala_id','=','gejalas.id')
+            ->select('aturans.*','penyakits.name as penyakit','gejalas.name as gejala')
             ->orderBy('id','desc')
             // ->get();
             ->paginate(5);

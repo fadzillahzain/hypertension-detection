@@ -8,94 +8,107 @@ import {
   CForm,
   CFormInput,
   CFormLabel,
+  CFormSelect,
   CFormTextarea,
   CRow,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilFile, cilBadge, cilPencil, cilTrash, cilStorage } from '@coreui/icons'
-import {makeRequest} from '../../../../axios'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createMateri, createVideo } from '../../../../services/api'
+import { createAturan } from '../../../services/api'
+import { usePenyakitAll } from '../../../hooks/queries'
+// import AddFormDetail from './AddFormDetail'
 
-const AddMateri = () => {
-    const [err, setErr] = useState(null);
-    const [file, setFile] = useState(null)
-    const navigate = useNavigate()
-    const [input, setInputs] = useState({
-        name : "",
-        about : "",
-        link : ""
-    });
-    const handleChange = (e) => {
-        console.log(input);
-        setInputs((prev) => ({...prev, [e.target.name] : e.target.value}));
-      };
-    const queryClient = useQueryClient()
-
-    const createMateriMutation = useMutation({
-        mutationFn: createVideo,
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['video'] })
-          navigate('/guru/video')
-        },
-        onError:(err) => {
-            console.log(err.response.data.msg)
-        }
+const AddForm = () => {
+  const [err, setErr] = useState(null);
+  const navigate = useNavigate()
+  const { isPending, isError, data: response, error, isFetching } = usePenyakitAll()   
+  const [input, setInputs] = useState({
+    penyakit_id : "",
+    gejala_id : "",
+    nilai : ""
+  });
+  
+  const handleChange = (e) => {
+    setInputs((prev) => ({...prev, [e.target.name] : e.target.value}));
+  };
+  const queryClient = useQueryClient()
+  
+  const createMutation = useMutation({
+    mutationFn: createAturan,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['Aturan'] })
+      navigate('/Aturan')
+    },
+    onError:(err) => {
+      console.error(err.response.data)
+    }
+  })
+  const handleSubmit = async (data) => {
+    createMutation.mutate({...data})
+    setInputs({
+      kode: '',
+      name: '',
+      kategori: '',
+      deskripsi: ''
     })
-    const handleSubmit = async (materi) => {
-      createMateriMutation.mutate({...materi})
-      setInputs({
-        name: '',
-        about: '',
-        link: '',
-      })
-    };
+  };
   return (
     <CRow>
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>Tambah materi</strong>
+            <strong>Tambah Aturan</strong>
           </CCardHeader>
           <CCardBody>
-              {/* <AddMateriForm onsubmit={handleSubmit}/> */}
-                <CForm encType='multipart/form-data'>
-                    <div className="mb-3">
-                        <CFormLabel htmlFor="judul">Judul</CFormLabel>
-                        <CFormInput
-                            type="text"
-                            id="judul"
-                            name='name'
-                            placeholder="ex : Materi Pengenalan Jarkom"
-                            onChange={handleChange} required 
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <CFormLabel htmlFor="keterangan">Keterangan</CFormLabel>
-                        <CFormTextarea 
-                            id="keterangan" 
-                            name='about'
-                            rows={3}
-                            placeholder='Jelaskan secara garis besar apa yang dapat murid ketahui dari belajar materi ini'
-                            onChange={handleChange}
-                        >
-                        </CFormTextarea>
-                    </div>
-                    <div className="mb-3">
-                        <CFormLabel htmlFor="link">Link Embed Video</CFormLabel>
-                        <CFormInput
-                            type="text"
-                            id="link"
-                            name='link'
-                            placeholder="ex : https://www.youtube.com/embed/###"
-                            onChange={handleChange} required 
-                        />
-                    </div>
-                    <div className="d-grid">
-                        <CButton color="primary" onClick={()=>{handleSubmit(input, file)}}>Buat Materi Video</CButton>
-                    </div>
-                </CForm>
+          
+          {isPending? ( <span>Loading ...</span>
+          ) : isError ? (
+            <div>Error: {error.message}</div>
+          ) : (
+            <>
+            <CForm encType='multipart/form-data'>
+              <div className="mb-3">
+                <CFormLabel htmlFor="penyakit">Penyakit</CFormLabel>
+                <CFormSelect name="penyakit_id" onChange={handleChange} >
+                  <option>--Pilih Nama Penyakit--</option>
+                  {response?.data.penyakit.map((data)=>{
+                    return(
+                      <option key={data.id} value={data.id}>{data.name}</option>
+                    )
+                  })} 
+            
+                </CFormSelect>
+              </div>
+              <div className="mb-3">
+                <CFormLabel htmlFor="gejala">Gejala</CFormLabel>
+                <CFormSelect name="gejala_id" onChange={handleChange} >
+                  <option>--Pilih Nama Gejala--</option>
+                  {response?.data.gejala.map((data)=>{
+                    return(
+                      <option key={data.id} value={data.id}>{data.name}</option>
+                    )
+                  })} 
+                  
+                </CFormSelect>
+              </div>
+              <div className="mb-3">
+                <CFormLabel htmlFor="nilai">Nilai</CFormLabel>
+                <CFormInput
+                  type="number"
+                  id="nilai"
+                  name='nilai'
+                  placeholder="Nilai Aturan"
+                  onChange={handleChange} required 
+                />
+              </div>
+              <p>{err && err}</p>
+              <div className="d-grid">
+                <CButton color="info" onClick={()=>{handleSubmit(input)}}>Simpan</CButton>
+              </div>
+            </CForm>
+            </>
+          )}
+          {isFetching ? <span> Fetching...</span> : null}{' '}
           </CCardBody>
         </CCard>
       </CCol>
@@ -103,4 +116,4 @@ const AddMateri = () => {
   )
 }
 
-export default AddMateri
+export default AddForm

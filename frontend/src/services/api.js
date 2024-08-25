@@ -18,9 +18,8 @@ const user = JSON.parse(localStorage.getItem("user")) || null
 //   })
 //   return response.json()
 // }
-export const getRekamMedis = async (limit=5,pageParam = 1,filter='') => {
-    // console.log("api ==========> page " +pageParam+" limit : "+limit+" filter : "+filter);
-    const response = await makeRequest.get(`/rekamMedis?page=${pageParam}&limit=${limit}&filter=${filter}`)
+export const getRekamMedis = async (page=1) => {
+    const response = await makeRequest.get(`/rekam?page=${page}`,{headers : {Authorization : `Bearer ${user.token}`}})
     return response.data
 }
 
@@ -43,8 +42,8 @@ export async function getDashboard() {
     return (await makeRequest.get(`/dashboard`)).data
 }
 
-export const getUserPages = async (limit=5,pageParam = 1,filter='') => {
-    const response = await makeRequest.get(`/user?page=${pageParam}&limit=${limit}&filter=${filter}`)
+export const getUserPages = async (page=1) => {
+    const response = await makeRequest.get(`/user/super?page=${page}`,{headers : {Authorization : `Bearer ${user.token}`}})
     return response.data
 }
 export async function getUser(id) {
@@ -60,6 +59,10 @@ export async function editUser(newData) {
 
 export const getPenyakit = async (page=1) => {
     const response = await makeRequest.get(`/penyakit?page=${page}`,{headers : {Authorization : `Bearer ${user.token}`}})
+    return response.data
+}
+export const getPenyakitAll = async (page=1) => {
+    const response = await makeRequest.get(`/penyakit/all`,{headers : {Authorization : `Bearer ${user.token}`}})
     return response.data
 }
 
@@ -79,46 +82,45 @@ export async function delPenyakit(id) {
 }
 
 
-export const getGejala = async (limit=5,pageParam = 1,filter='') => {
-    // console.log("api ==========> page " +pageParam+" limit : "+limit+" filter : "+filter);
-    const response = await makeRequest.get(`/Gejala?page=${pageParam}&limit=${limit}&filter=${filter}`)
+export const getGejala = async (page=1) => {
+    const response = await makeRequest.get(`/gejala?page=${page}`,{headers : {Authorization : `Bearer ${user.token}`}})
     return response.data
 }
 
 export async function getGejalaById(id) {
-    return (await makeRequest.get(`/Gejala/${id}`)).data
+    return (await makeRequest.get(`/gejala/${id}`,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 export async function createGejala(newData) {
-    return (await makeRequest.post('/Gejala', newData)).data
+    return (await makeRequest.post('/gejala', newData,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 
 export async function editGejala(newData) {
-    return (await makeRequest.put(`/Gejala/${newData.id}`,newData)).data
+    return (await makeRequest.put(`/gejala/${newData.id}`,newData,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 
 export async function delGejala(id) {
-    return (await makeRequest.delete(`/Gejala/${id}`)).data
+    return (await makeRequest.delete(`/gejala/${id}`,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 
 
-export const getAturan = async (limit=5,pageParam = 1,filter='') => {
-    // console.log("api ==========> page " +pageParam+" limit : "+limit+" filter : "+filter);
-    const response = await makeRequest.get(`/Aturan?page=${pageParam}&limit=${limit}&filter=${filter}`)
+export const getAturan = async (page=1) => {
+    const response = await makeRequest.get(`/aturan?page=${page}`,{headers : {Authorization : `Bearer ${user.token}`}})
     return response.data
 }
 
 export async function getAturanById(id) {
-    return (await makeRequest.get(`/Aturan/${id}`)).data
+    return (await makeRequest.get(`/aturan/${id}`,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 export async function createAturan(newData) {
-    return (await makeRequest.post('/Aturan', newData)).data
+    return (await makeRequest.post('/aturan', newData,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 
 export async function editAturan(newData) {
-    return (await makeRequest.put(`/Aturan/${newData.id}`,newData)).data
+    return (await makeRequest.put(`/aturan/${newData.id}`,newData,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 
 export async function delAturan(id) {
-    return (await makeRequest.delete(`/Aturan/${id}`)).data
+    return (await makeRequest.delete(`/aturan/${id}`,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
+
 

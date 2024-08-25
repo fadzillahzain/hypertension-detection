@@ -1,79 +1,107 @@
-import { CButton, CForm, CFormInput, CFormLabel, CFormTextarea } from '@coreui/react'
+import {
+    CButton,
+    CCard,
+    CCardBody,
+    CCardHeader,
+    CCol,
+    CForm,
+    CFormInput,
+    CFormLabel,
+    CFormTextarea,
+    CRow,
+} from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilMinus, cilPlus, cilTrash } from '@coreui/icons'
 import { useState } from 'react'
-const EditVideoForm = ({onsubmit, initialValue})=>{
-    const [materi, setMateri] = useState({
-        name: initialValue?.name || '',
-        about: initialValue?.about || '',
-        link: initialValue?.link || ''
-    })
-    const handleChangeInput = (evt) => {
-        setMateri({
-          ...materi,
-          [evt.target.name]: evt.target.value,
-        })
-    }
-
-    const createTextInputElement = (elementName) => (
-        <div className="mb-3">
-            <CFormLabel htmlFor="judul">Judul</CFormLabel>
-            <CFormInput
-                type="text"
-                id="judul"
-                name={elementName.toLowerCase()}
-                placeholder="ex : Video Pengenalan Jarkom"
-                onChange={handleChangeInput} required
-                value = {materi[elementName.toLowerCase()]} 
-            />
-        </div>
-    )
-    const createLinkInputElement = (elementName) => (
-        <div className="mb-3">
-            <CFormLabel htmlFor="link">Link Embed Video</CFormLabel>
-            <CFormInput
-                type="text"
-                id="link"
-                name={elementName.toLowerCase()}
-                placeholder="ex : https://www.youtube.com/embed/###"
-                onChange={handleChangeInput} required
-                value = {materi[elementName.toLowerCase()]} 
-            />
-        </div>
-    )
-    const createTextareaInputElement = (elementName) => (
-        <div className="mb-3">
-            <CFormLabel htmlFor="keterangan">Keterangan</CFormLabel>
-            <CFormTextarea 
-                id="keterangan" 
-                name={elementName.toLowerCase()}
-                rows={3}
-                placeholder='Jelaskan secara garis besar apa yang dapat murid ketahui dari belajar video ini'
-                onChange={handleChangeInput}
-                value = {materi[elementName.toLowerCase()]} 
-            >
-            </CFormTextarea>
-        </div>
-    )
+import { useNavigate } from 'react-router-dom';
+const EditPenyaktiForm = ({onsubmit, initialValue})=>{
+    const [err, setErr] = useState(null);
+    const navigate = useNavigate()
+    const [input, setInputs] = useState({
+        kode : initialValue?.data.kode,
+        name : initialValue?.data.name,
+        kategori : initialValue?.data.kategori,
+        deskripsi : initialValue?.data.deskripsi,
+    });
+    const handleChange = (e) => {
+        setInputs((prev) => ({...prev, [e.target.name] : e.target.value}));
+      };
     const handleSubmit = (evt) => {
         evt.preventDefault()
-        onsubmit(materi)
+        onsubmit(input)
         
-        setMateri({
+        setInputs({
+          kode: '',
           name: '',
-          about: '',
-          link:''
+          kategori: '',
+          deskripsi:''
         })
     }
-    return(
-        <CForm encType='multipart/form-data' id='formEditMateri'>
-
-            {createTextInputElement('name')}
-            {createTextareaInputElement('about')}
-            {createLinkInputElement('link')}
-            <div className="d-grid">
-                <CButton color="primary" onClick={handleSubmit}>Edit Materi Video</CButton>
-            </div>
-        </CForm>
-    )
+    
+  return (
+    <CRow>
+      <CCol xs={12}>
+        <CCard className="mb-4">
+          <CCardHeader>
+            <strong>Tambah Gejala</strong>
+          </CCardHeader>
+          <CCardBody>
+                <CForm encType='multipart/form-data'>
+                    <div className="mb-3">
+                        <CFormLabel htmlFor="kode">Kode</CFormLabel>
+                        <CFormInput
+                            type="text"
+                            id="kode"
+                            name='kode'
+                            placeholder="Kode Gejala"
+                            onChange={handleChange} required 
+                            value={input.kode}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <CFormLabel htmlFor="name">Name</CFormLabel>
+                        <CFormInput
+                            type="text"
+                            id="name"
+                            name='name'
+                            placeholder="Nama Gejala"
+                            onChange={handleChange} required 
+                            value={input.name}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <CFormLabel htmlFor="kategori">kategori</CFormLabel>
+                        <CFormInput
+                            type="text"
+                            id="kategori"
+                            name='kategori'
+                            placeholder="Nama Kategori"
+                            onChange={handleChange} required 
+                            value={input.kategori}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <CFormLabel htmlFor="deskripsi">Deskripsi</CFormLabel>
+                        <CFormTextarea 
+                            id="deskripsi" 
+                            name='deskripsi'
+                            rows={3}
+                            placeholder='Deskripsi Gejala'
+                            onChange={handleChange}
+                            value={input.deskripsi}
+                        >
+                        </CFormTextarea>
+                    </div>
+                    <p>{err && err}</p>
+                    <div className="d-grid">
+                        <CButton color="info" onClick={handleSubmit}>Simpan</CButton>
+                    </div>
+                </CForm>
+          </CCardBody>
+        </CCard>
+      </CCol>
+    </CRow>
+  )
 }
 
-export default EditVideoForm
+export default EditPenyaktiForm

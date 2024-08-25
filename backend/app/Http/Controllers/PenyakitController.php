@@ -56,6 +56,7 @@ class PenyakitController extends Controller
         return new CustomResource(true, 'Detail Data!', $penyakit);
     }
 
+    
      /**
      * store
      *

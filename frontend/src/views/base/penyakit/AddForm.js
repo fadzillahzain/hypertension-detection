@@ -55,9 +55,9 @@ const AddForm = () => {
     const handleSubmit = async (data, solusi) => {
       createMutation.mutate({...data, solusi})
       setInputs({
+        kode: '',
         name: '',
-        about: '',
-        link: ''
+        deskripsi: ''
       })
     };
   return (

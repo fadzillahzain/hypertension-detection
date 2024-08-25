@@ -11,44 +11,41 @@ import {
   CFormTextarea,
   CRow,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilFile, cilBadge, cilPencil, cilTrash, cilStorage } from '@coreui/icons'
-import {makeRequest} from '../../../../axios'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createMateri, createVideo } from '../../../../services/api'
+import { createGejala } from '../../../services/api'
 
-const AddMateri = () => {
+const AddForm = () => {
     const [err, setErr] = useState(null);
-    const [file, setFile] = useState(null)
     const navigate = useNavigate()
     const [input, setInputs] = useState({
+        kode : "",
         name : "",
-        about : "",
-        link : ""
+        kategori : "",
+        deskripsi : "",
     });
     const handleChange = (e) => {
-        console.log(input);
         setInputs((prev) => ({...prev, [e.target.name] : e.target.value}));
       };
     const queryClient = useQueryClient()
 
-    const createMateriMutation = useMutation({
-        mutationFn: createVideo,
+    const createMutation = useMutation({
+        mutationFn: createGejala,
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['video'] })
-          navigate('/guru/video')
+          queryClient.invalidateQueries({ queryKey: ['Gejala'] })
+          navigate('/gejala')
         },
         onError:(err) => {
-            console.log(err.response.data.msg)
+            console.error(err.response.data)
         }
     })
-    const handleSubmit = async (materi) => {
-      createMateriMutation.mutate({...materi})
+    const handleSubmit = async (data) => {
+      createMutation.mutate({...data})
       setInputs({
+        kode: '',
         name: '',
-        about: '',
-        link: '',
+        kategori: '',
+        deskripsi: ''
       })
     };
   return (
@@ -56,44 +53,54 @@ const AddMateri = () => {
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
-            <strong>Tambah materi</strong>
+            <strong>Tambah Gejala</strong>
           </CCardHeader>
           <CCardBody>
-              {/* <AddMateriForm onsubmit={handleSubmit}/> */}
                 <CForm encType='multipart/form-data'>
                     <div className="mb-3">
-                        <CFormLabel htmlFor="judul">Judul</CFormLabel>
+                        <CFormLabel htmlFor="kode">Kode</CFormLabel>
                         <CFormInput
                             type="text"
-                            id="judul"
-                            name='name'
-                            placeholder="ex : Materi Pengenalan Jarkom"
+                            id="kode"
+                            name='kode'
+                            placeholder="Kode Gejala"
                             onChange={handleChange} required 
                         />
                     </div>
                     <div className="mb-3">
-                        <CFormLabel htmlFor="keterangan">Keterangan</CFormLabel>
+                        <CFormLabel htmlFor="name">Name</CFormLabel>
+                        <CFormInput
+                            type="text"
+                            id="name"
+                            name='name'
+                            placeholder="Nama Gejala"
+                            onChange={handleChange} required 
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <CFormLabel htmlFor="kategori">Kategori</CFormLabel>
+                        <CFormInput
+                            type="text"
+                            id="kategori"
+                            name='kategori'
+                            placeholder="Kategori Gejala"
+                            onChange={handleChange} required 
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <CFormLabel htmlFor="deskripsi">Deskripsi</CFormLabel>
                         <CFormTextarea 
-                            id="keterangan" 
-                            name='about'
+                            id="deskripsi" 
+                            name='deskripsi'
                             rows={3}
-                            placeholder='Jelaskan secara garis besar apa yang dapat murid ketahui dari belajar materi ini'
+                            placeholder='Deskripsi Gejala'
                             onChange={handleChange}
                         >
                         </CFormTextarea>
                     </div>
-                    <div className="mb-3">
-                        <CFormLabel htmlFor="link">Link Embed Video</CFormLabel>
-                        <CFormInput
-                            type="text"
-                            id="link"
-                            name='link'
-                            placeholder="ex : https://www.youtube.com/embed/###"
-                            onChange={handleChange} required 
-                        />
-                    </div>
+                    <p>{err && err}</p>
                     <div className="d-grid">
-                        <CButton color="primary" onClick={()=>{handleSubmit(input, file)}}>Buat Materi Video</CButton>
+                        <CButton color="info" onClick={()=>{handleSubmit(input)}}>Simpan</CButton>
                     </div>
                 </CForm>
           </CCardBody>
@@ -103,4 +110,4 @@ const AddMateri = () => {
   )
 }
 
-export default AddMateri
+export default AddForm

@@ -36,16 +36,6 @@ const Penyakit = () => {
       // const formated =(theDatas?.data.data[0].solusi); //the string
       // console.log("formate",eval(formated)); //1st method
       // console.log("formate",(formated.replace(/[\[\]"]+/g,'')).split(',')); //2nd
-    let tempSolusi
-    const list = (string) =>{
-      {tempSolusi = (string.replace(/[\[\]"]+/g,'')).split(',')}
-          <div>
-            {tempSolusi.map((data)=>{
-      {console.log(data)}
-              <p>{data}</p>
-            })}
-          </div>
-    }
     const deleteMutation = useDeletePenyakit()
 
     if (isError) return `Error: ${error.message}`
@@ -139,7 +129,7 @@ const Penyakit = () => {
               </CTable>
                 <CPagination align="end" style={{marginRight:"40px",marginTop:"2ren",marginLeft:'auto'}}>
                 <ResponsivePagination
-                  total={theDatas.data.last_page ? theDatas.data.last_page :1}
+                  total={theDatas?.data.last_page ? theDatas.data.last_page :1}
                   current={page}
                   onPageChange={(page) => setPage(page)}
                 />

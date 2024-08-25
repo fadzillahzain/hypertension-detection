@@ -50,12 +50,12 @@ const EditVideoMateri = () => {
           <CCardBody>
             
             {isPending? ( <span>Loading ...</span>
-            ) : isError ? (
-              <div>Error: {error.message}</div>
-            ) : (
-              <EditMateriForm onsubmit={handleSubmit} initialValue={materi} />     
-          )}
-          {isFetching ? <span> Loading...</span> : null}{' '}
+              ) : isError ? (
+                <div>Error: {error.message}</div>
+              ) : (
+                <EditMateriForm onsubmit={handleSubmit} initialValue={materi} />     
+            )}
+            {isFetching ? <span> Fetching...</span> : null}{' '}
           </CCardBody>
         </CCard>
       </CCol>

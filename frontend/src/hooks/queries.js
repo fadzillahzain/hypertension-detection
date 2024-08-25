@@ -1,19 +1,23 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 import { 
+  getAturan,
   getDashboard, 
+  getGejala, 
+  getGejalaById, 
   getPenyakit, 
+  getPenyakitAll, 
   getPenyakitById, 
   getRekamMedis, 
   getRekamMedisById, 
   getUser, 
   getUserPages} from '../services/api'
 
-export function useRekamMedisPages(limit,page,filter) {
+export function useRekamMedisPages(page) {
   // console.log("hook =========> page " +page+" limit : "+limit+" filter : "+filter);
   return useQuery({
-    queryKey: ['rekamMedis', {limit,page,filter}],
-    queryFn: () => getRekamMedis(limit,page,filter),
+    queryKey: ['rekamMedis', {page}],
+    queryFn: () => getRekamMedis(page),
     placeholderData: keepPreviousData,
   });
 }
@@ -41,11 +45,11 @@ export function useDashboard(){
   })
 }
 
-export function useUserPages(limit,page,filter) {
+export function useUserPages(page) {
   // console.log("hook =========> page " +page+" limit : "+limit+" filter : "+filter);
   return useQuery({
-    queryKey: ['user', {limit,page,filter}],
-    queryFn: () => getUserPages(limit,page,filter),
+    queryKey: ['user', {page}],
+    queryFn: () => getUserPages(page),
     placeholderData: keepPreviousData,
   });
 }
@@ -66,6 +70,14 @@ export function usePenyakitPages(page) {
   });
 }
 
+export function usePenyakitAll() {
+  return useQuery({
+    queryKey: ['penyakitAll'],
+    queryFn: () => getPenyakitAll(),
+    placeholderData: keepPreviousData,
+  });
+}
+
 export function usePenyakitById(id){
   return useQuery({
     queryKey: ['penyakitbyId', id],
@@ -73,11 +85,11 @@ export function usePenyakitById(id){
   })
 }
 
-export function useGejalaPages(limit,page,filter) {
+export function useGejalaPages(page) {
   // console.log("hook =========> page " +page+" limit : "+limit+" filter : "+filter);
   return useQuery({
-    queryKey: ['gejala', {limit,page,filter}],
-    queryFn: () => getGejala(limit,page,filter),
+    queryKey: ['gejala', {page}],
+    queryFn: () => getGejala(page),
     placeholderData: keepPreviousData,
   });
 }
@@ -85,15 +97,14 @@ export function useGejalaPages(limit,page,filter) {
 export function useGejalaById(id){
   return useQuery({
     queryKey: ['gejalabyId', id],
-    queryFn: () => getRekamMedisById(id),
+    queryFn: () => getGejalaById(id),
   })
 }
 
-export function useAturanPages(limit,page,filter) {
-  // console.log("hook =========> page " +page+" limit : "+limit+" filter : "+filter);
+export function useAturanPages(page) {
   return useQuery({
-    queryKey: ['aturan', {limit,page,filter}],
-    queryFn: () => getAturan(limit,page,filter),
+    queryKey: ['aturan', {page}],
+    queryFn: () => getAturan(page),
     placeholderData: keepPreviousData,
   });
 }
