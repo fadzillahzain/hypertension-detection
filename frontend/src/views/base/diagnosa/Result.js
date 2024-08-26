@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import ResponsivePagination from 'react-responsive-pagination'
-import ShowMoreText from "react-show-more-text";
+import React from 'react'
 import {
     CBadge,
   CButton,
@@ -8,32 +6,30 @@ import {
   CCardBody,
   CCardHeader,
   CCol,
-  CFormInput,
-  CFormSelect,
-  CInputGroup,
-  CInputGroupText,
-  CPagination,
-  CPaginationItem,
   CRow,
   CTable,
   CTableBody,
-  CTableCaption,
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilPencil, cilTrash, cilStorage, cilZoom, cilReload, cilPlus, cilAperture, cilArrowCircleLeft, cilSave } from '@coreui/icons'
-import { Link, useNavigate } from 'react-router-dom'
-import moment from 'moment';
+import { cilArrowCircleLeft, cilSave } from '@coreui/icons'
+import { useNavigate } from 'react-router-dom'
+import moment from 'moment-timezone';
+import 'moment/locale/id'  
+moment.locale('id')
+moment().tz("Asia/Jakarta").format();
+
 
 const Result = () => {
-    const [inputs, setinputs] = useState();
+    // const [inputs, setinputs] = useState();
     const navigate = useNavigate()
-    const date = moment()
-    const HandleChange = (e) => {
-    }
+    const date = moment().format("dddd, MMMM Do YYYY, h:mm:ss");
+    
+    // const HandleChange = (e) => {
+    // }
     // const { isPending, isError, data: theDatas, error, isFetching } = useAturanPages()
     // if (isError) return `Error: ${error.message}`
   return (
@@ -54,13 +50,13 @@ const Result = () => {
             ) : ( */}
               
             <>
-            rabu, 12 agustus 2023 | 12:12:12
-            <p>
+            {date}
+            <div>
                 Berdasarkan gejala yang dialami, yaitu 
                 <div><CBadge color='success'>yakin</CBadge> batuk</div>
-                <div><CBadge color='dark'>kurang yakin</CBadge> pusing</div>
+                <div><CBadge color='warning'>kurang yakin</CBadge> pusing</div>
                 Penyakit yang dialami, yaitu
-            </p>
+            </div>
             
               <CTable color="" hover align='middle' responsive caption="top">
                 {/* <CTableCaption>Daftar data materi</CTableCaption> */}
@@ -81,7 +77,7 @@ const Result = () => {
                 </CTableBody>
               </CTable>
               
-            <CButton color="primary" className="mb-3 text-light mt-1 px-3 mx-1">
+            <CButton color="primary" className="mb-3 text-light mt-1 px-3 mx-1" onClick={() => navigate('/diagnosa')}>
                 <CIcon icon={cilArrowCircleLeft} /> {' '} Diagnosa Ulang
             </CButton>
             <CButton color="secondary" className="mb-3 text-light mt-1 px-3 mx-1">

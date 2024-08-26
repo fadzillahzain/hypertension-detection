@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { makeRequest } from "../axios";
 
 const user = JSON.parse(localStorage.getItem("user")) || null
@@ -23,6 +22,10 @@ export const getRekamMedis = async (page=1) => {
     return response.data
 }
 
+export const getRekamMedisUser = async (page=1) => {
+    const response = await makeRequest.get(`/rekam/user?page=${page}`,{headers : {Authorization : `Bearer ${user.token}`}})
+    return response.data
+}
 export async function getRekamMedisById(id) {
     return (await makeRequest.get(`/rekamMedis/${id}`)).data
 }
@@ -61,7 +64,7 @@ export const getPenyakit = async (page=1) => {
     const response = await makeRequest.get(`/penyakit?page=${page}`,{headers : {Authorization : `Bearer ${user.token}`}})
     return response.data
 }
-export const getPenyakitAll = async (page=1) => {
+export const getPenyakitAll = async () => {
     const response = await makeRequest.get(`/penyakit/all`,{headers : {Authorization : `Bearer ${user.token}`}})
     return response.data
 }
@@ -81,6 +84,10 @@ export async function delPenyakit(id) {
     return (await makeRequest.delete(`/penyakit/${id}`,{headers : {Authorization : `Bearer ${user.token}`}})).data
 }
 
+export const getGejalaAll = async () => {
+    const response = await makeRequest.get(`/gejala/all`,{headers : {Authorization : `Bearer ${user.token}`}})
+    return response.data
+}
 
 export const getGejala = async (page=1) => {
     const response = await makeRequest.get(`/gejala?page=${page}`,{headers : {Authorization : `Bearer ${user.token}`}})

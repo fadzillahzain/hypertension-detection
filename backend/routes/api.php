@@ -35,8 +35,12 @@ Route::middleware('auth:api')->group(function(){
     Route::apiResource('/penyakit', App\Http\Controllers\PenyakitController::class);
 
     Route::apiResource('/solusi', App\Http\Controllers\SolusiController::class);
+
+    Route::get('/gejala/all', App\Http\Controllers\Gejala\AllGejalaController::class)->name('gejalaAll');
     Route::apiResource('/gejala', App\Http\Controllers\GejalaController::class);
     Route::apiResource('/aturan', App\Http\Controllers\AturanController::class);
+
+    Route::get('/rekam/user', App\Http\Controllers\Diagnosa\DiagnosaUserController::class);
     Route::apiResource('/rekam', App\Http\Controllers\RekamMedisController::class);
     
 });

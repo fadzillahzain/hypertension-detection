@@ -2,14 +2,17 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 import { 
   getAturan,
+  getAturanById,
   getDashboard, 
   getGejala, 
+  getGejalaAll, 
   getGejalaById, 
   getPenyakit, 
   getPenyakitAll, 
   getPenyakitById, 
   getRekamMedis, 
   getRekamMedisById, 
+  getRekamMedisUser, 
   getUser, 
   getUserPages} from '../services/api'
 
@@ -22,11 +25,10 @@ export function useRekamMedisPages(page) {
   });
 }
 
-export function useRiwayatDiagnosaPages(limit,page,filter) {
-  // console.log("hook =========> page " +page+" limit : "+limit+" filter : "+filter);
+export function useRiwayatDiagnosaPages(page) {
   return useQuery({
-    queryKey: ['riwayatDiagnosa', {limit,page,filter}],
-    queryFn: () => getRekamMedis(limit,page,filter),
+    queryKey: ['riwayatDiagnosa', {page}],
+    queryFn: () => getRekamMedisUser(page),
     placeholderData: keepPreviousData,
   });
 }
@@ -83,6 +85,14 @@ export function usePenyakitById(id){
     queryKey: ['penyakitbyId', id],
     queryFn: () => getPenyakitById(id),
   })
+}
+
+export function useGejalaAll() {
+  return useQuery({
+    queryKey: ['gejalaAll'],
+    queryFn: () => getGejalaAll(),
+    placeholderData: keepPreviousData,
+  });
 }
 
 export function useGejalaPages(page) {

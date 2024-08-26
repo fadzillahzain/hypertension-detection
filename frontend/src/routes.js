@@ -1,8 +1,6 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
-const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
-const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
 // Base
 const RekamMedis = React.lazy(() => import('./views/base/dataRekamMedis/ReadAll'))
@@ -32,7 +30,7 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/diagnosa', name: 'Rekam Medis', element: Diagnosa },
-  { path: '/diagnosa/hasil', name: 'Rekam Medis', element: Result },
+  { path: '/diagnosa/hasil/', name: 'Rekam Medis', element: Result },
   { path: '/riwayat/diagnosa', name: 'Rekam Medis', element: RiwayatDiagnosa },
   { path: '/riwayat/diagnosa/detail/:id', name: 'Rekam Medis', element: RiwayatDiagnosaDetail },
   { path: '/rekam/medis', name: 'Rekam Medis', element: RekamMedis },
