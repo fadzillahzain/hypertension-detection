@@ -120,6 +120,7 @@ export function useAturanPages(page) {
 }
 
 export function useAturanById(id){
+  // console.log("id =========> "+id)
   return useQuery({
     queryKey: ['aturanbyId', id],
     queryFn: () => getAturanById(id),

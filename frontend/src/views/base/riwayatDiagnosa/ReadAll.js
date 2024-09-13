@@ -64,8 +64,9 @@ const RiwayatDiagnosa = () => {
                         <CTableRow key={data.id}>
                             <CTableHeaderCell scope="row">{(index+1)+((page-1)*5)}</CTableHeaderCell>
                             <CTableDataCell>{data.user.name}</CTableDataCell>
-                            <CTableDataCell>{data.gejala.name}</CTableDataCell>
-                            <CTableDataCell>{data.gejala.penyakit}</CTableDataCell>
+                            <CTableDataCell>{data.gejala}</CTableDataCell>
+                            <CTableDataCell>{data.penyakit}</CTableDataCell>
+                            <CTableDataCell>{data.aksi}</CTableDataCell>
                             <CTableDataCell>
                                 <CButton color="primary" className="mb-1 mt-1 px-3 mx-1" onClick={() => handleDetail(data.id)}>
                                     <CIcon icon={cilStorage} />

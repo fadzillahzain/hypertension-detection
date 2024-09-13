@@ -100,7 +100,7 @@ class DiagnosaUserController extends Controller
         $combinedBPA = $this->getBPA($gejala_req[0], $penyakit_req);
 
         for ($i = 1; $i < count($gejala_req); $i++) {
-            $combinedBPA = $this->combineBPAs($combinedBPA, $this->getBPA($gejala_req[$i], $penyakit_req));
+            $combinedBPA = $this->combineBPAs(bpa1: $combinedBPA, bpa2: $this->getBPA($gejala_req[$i], $penyakit_req));
         }
 
         $belief = $combinedBPA[0];

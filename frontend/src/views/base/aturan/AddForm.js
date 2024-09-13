@@ -25,7 +25,8 @@ const AddForm = () => {
   const [input, setInputs] = useState({
     penyakit_id : "",
     gejala_id : "",
-    nilai : ""
+    nilai : "",
+    nilai_dst : ""
   });
   
   const handleChange = (e) => {
@@ -37,6 +38,7 @@ const AddForm = () => {
     mutationFn: createAturan,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['Aturan'] })
+      console.log(input())
       navigate('/Aturan')
     },
     onError:(err) => {
@@ -45,12 +47,6 @@ const AddForm = () => {
   })
   const handleSubmit = async (data) => {
     createMutation.mutate({...data})
-    setInputs({
-      kode: '',
-      name: '',
-      kategori: '',
-      deskripsi: ''
-    })
   };
   return (
     <CRow>
@@ -92,12 +88,25 @@ const AddForm = () => {
                 </CFormSelect>
               </div>
               <div className="mb-3">
-                <CFormLabel htmlFor="nilai">Nilai</CFormLabel>
+                <CFormLabel htmlFor="nilai">Nilai CF</CFormLabel>
                 <CFormInput
                   type="number"
+                  step="0.01"
+                  min={-1}
+                  max={1}
                   id="nilai"
                   name='nilai'
-                  placeholder="Nilai Aturan"
+                  placeholder="Nilai CF"
+                  onChange={handleChange} required 
+                />
+              </div>
+              <div className="mb-3">
+                <CFormLabel htmlFor="nilai_dst">Nilai DST (format: [mengidap, tidak mengidap, tidak tahu]) example: [1.0, 0.0, 0.5]</CFormLabel>
+                <CFormInput
+                  type="text"
+                  id="nilai_dst"
+                  name='nilai_dst'
+                  placeholder="[1.0, 0.0, 0.5]"
                   onChange={handleChange} required 
                 />
               </div>

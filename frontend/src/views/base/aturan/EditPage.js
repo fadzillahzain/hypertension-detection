@@ -8,9 +8,9 @@ import {
 } from '@coreui/react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useVideoById } from '../../../../hooks/queries'
 import { editVideo } from '../../../../services/api'
-import EditMateriForm from './EditFormMateri'
+import EditMateriForm from './EditForm'
+import { useAturanById } from '../../../hooks/queries'
 
 const EditVideoMateri = () => {
     const [err, setErr] = useState(null);
@@ -26,12 +26,12 @@ const EditVideoMateri = () => {
     const queryClient = useQueryClient()
 
     const { id } = useParams()
-    const { isPending, isError, data: materi, error, isFetching, isPlaceholderData } = useVideoById(id)
+    const { isPending, isError, data: aturan, error, isFetching, isPlaceholderData } = useAturanById(id)
     const updateMateriMutation = useMutation({
         mutationFn: editVideo,
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['video'] })
-          navigate('/guru/video')
+          queryClient.invalidateQueries({ queryKey: ['aturanbyId'] })
+          navigate('/Aturan')
         },
         onError:(err) => {
             console.log(err.response.data.msg)
@@ -48,12 +48,11 @@ const EditVideoMateri = () => {
             <strong>Edit Video</strong>
           </CCardHeader>
           <CCardBody>
-            
             {isPending? ( <span>Loading ...</span>
               ) : isError ? (
                 <div>Error: {error.message}</div>
               ) : (
-                <EditMateriForm onsubmit={handleSubmit} initialValue={materi} />     
+                <EditMateriForm onsubmit={handleSubmit} initialValue={aturan} />     
             )}
             {isFetching ? <span> Fetching...</span> : null}{' '}
           </CCardBody>

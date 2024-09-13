@@ -75,7 +75,8 @@ const Aturan = () => {
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Penyakit</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Gejala</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Nilai</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Nilai CF</CTableHeaderCell>
+                    <CTableHeaderCell scope="col">Nilai DST</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Aksi</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
@@ -86,6 +87,8 @@ const Aturan = () => {
                             <CTableDataCell>{data.penyakit}</CTableDataCell>
                             <CTableDataCell>{data.gejala}</CTableDataCell>
                             <CTableDataCell>{data.nilai}</CTableDataCell>
+                            <CTableDataCell>{data.nilai_dst}</CTableDataCell>
+
                             <CTableDataCell>
                                 <CButton color="warning" className="mb-1 mt-1 px-3 mx-1" onClick={() => handleEdit(data.id)}>
                                     <CIcon icon={cilPencil} />

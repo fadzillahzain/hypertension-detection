@@ -40,12 +40,12 @@ const _nav = [
     to: '/riwayat/diagnosa',
     icon: <CIcon icon={cilFolder} customClassName="nav-icon" />,
   },
-  {
-    component: CNavItem,
-    name: 'Data',
-    to: '/data',
-    icon: <CIcon icon={cilApps} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Data',
+  //   to: '/data',
+  //   icon: <CIcon icon={cilApps} customClassName="nav-icon" />,
+  // },
   {
     component: CNavTitle,
     name: 'Akun',
