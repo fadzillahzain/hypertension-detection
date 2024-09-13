@@ -15,25 +15,25 @@ class RekamMedisController extends Controller
      *
      * @return void
      */
-    
+
     public function index()
     {
         //get all data
         $data = DB::table('rekam_medis')
-            ->leftJoin('users','rekam_medis.user_id','=','users.id')
-            ->leftJoin('rekam_gejalas','rekam_gejalas.rekamMedis_id','=','rekam_medis.id')
-            ->leftJoin('gejalas','rekam_gejalas.gejala_id','=','gejalas.id')
-            ->leftJoin('rekam_penyakits','rekam_penyakits.rekamMedis_id','=','rekam_medis.id')
-            ->leftJoin('penyakits','rekam_penyakits.penyakit_id','=','penyakits.id')
-            ->select('rekam_medis.*','users.name as pengguna', 'gejalas.name as gejala','penyakits.name as penyakit')
-            ->orderBy('rekam_medis.id','desc')
-            ->get();    
-        
+            ->leftJoin('users', 'rekam_medis.user_id', '=', 'users.id')
+            ->leftJoin('rekam_gejalas', 'rekam_gejalas.rekamMedis_id', '=', 'rekam_medis.id')
+            ->leftJoin('gejalas', 'rekam_gejalas.gejala_id', '=', 'gejalas.id')
+            ->leftJoin('rekam_penyakits', 'rekam_penyakits.rekamMedis_id', '=', 'rekam_medis.id')
+            ->leftJoin('penyakits', 'rekam_penyakits.penyakit_id', '=', 'penyakits.id')
+            ->select('rekam_medis.*', 'users.name as pengguna', 'gejalas.name as gejala', 'penyakits.name as penyakit')
+            ->orderBy('rekam_medis.id', 'desc')
+            ->get();
+
         //return collection of data as a resource
         return new CustomResource(true, 'List Data ', $data);
     }
 
-     /**
+    /**
      * show
      *
      * @param  mixed $id
@@ -45,13 +45,14 @@ class RekamMedisController extends Controller
         $data = RekamMedis::find($id);
         if (!$data) {
             return response()->json('data tidak ditemukan', 404);
-        };
+        }
+        ;
         //return single data as a resource
         return new CustomResource(true, 'Detail Data!', $data);
     }
 
 
-   /**
+    /**
      * store
      *
      * @param  mixed $request
@@ -63,24 +64,31 @@ class RekamMedisController extends Controller
     {
         //define validation rules
         $validator = Validator::make($request->all(), [
-            'user_id'     => 'required',
+            'gejala' => 'required',
+            'penyakit' => 'required',
+            'aksi' => 'required',
         ]);
 
         //check if validation fails
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json(data: $validator->errors(), status: 422);
         }
+
+        $user = auth()->user();
 
         //create data
         $data = RekamMedis::create([
-            'user_id'     => $request->user_id
+            'user_id' => $user->id,
+            'gejala' => $request->gejala,
+            'penyakit' => $request->penyakit,
+            'aksi' => $request->aksi
         ]);
 
         //return response
         return new CustomResource(true, 'Data Berhasil Ditambahkan!', $data);
     }
-    
-    
+
+
     /**
      * update
      *
@@ -92,7 +100,7 @@ class RekamMedisController extends Controller
     {
         //define validation rules
         $validator = Validator::make($request->all(), [
-            'user_id'   => 'required'
+            'user_id' => 'required'
         ]);
 
         //check if validation fails
@@ -105,16 +113,17 @@ class RekamMedisController extends Controller
 
         if (!$data) {
             return response()->json('data tidak ditemukan', 404);
-        };
-        
+        }
+        ;
+
         $data->update([
-            'user_id'   => $request->user_id
+            'user_id' => $request->user_id
         ]);
 
         //return response
         return new CustomResource(true, 'Data Berhasil Diubah!', $data);
     }
-    
+
     /**
      * destroy
      *
@@ -128,7 +137,8 @@ class RekamMedisController extends Controller
         $data = RekamMedis::find($id);
         if (!$data) {
             return response()->json('data tidak ditemukan', 404);
-        };
+        }
+        ;
         //delete data
         $data->delete();
 

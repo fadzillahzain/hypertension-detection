@@ -18,5 +18,6 @@ class Aturan extends Model
         'penyakit_id',
         'gejala_id',
         'nilai',
+        'nilai_dst'
     ];
 }

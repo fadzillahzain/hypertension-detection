@@ -64,6 +64,7 @@ class AturanController extends Controller
             'penyakit_id'     => 'required',
             'gejala_id'     => 'required',
             'nilai'     => 'required',
+            'nilai_dst'     => 'required',
         ]);
 
         //check if validation fails
@@ -75,7 +76,8 @@ class AturanController extends Controller
         $data = Aturan::create([
             'penyakit_id'     => $request->penyakit_id,
             'gejala_id'     => $request->gejala_id,
-            'nilai'     => $request->nilai
+            'nilai'     => $request->nilai,
+            'nilai_dst'     => $request->nilai_dst
         ]);
 
         //return response
@@ -97,6 +99,7 @@ class AturanController extends Controller
             'penyakit_id'     => 'required',
             'gejala_id'     => 'required',
             'nilai'     => 'required',
+            'nilai_dst'     => 'required',
         ]);
 
         //check if validation fails
@@ -114,7 +117,8 @@ class AturanController extends Controller
         $data->update([
             'penyakit_id'     => $request->penyakit_id,
             'gejala_id'     => $request->gejala_id,
-            'nilai'     => $request->nilai
+            'nilai'     => $request->nilai,
+            'nilai_dst'     => $request->nilai_dst
         ]);
 
         //return response

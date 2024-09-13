@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RekamMedis extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,5 +16,8 @@ class RekamMedis extends Model
      */
     protected $fillable = [
         'user_id',
+        'gejala',
+        'penyakit',
+        'aksi',
     ];
 }

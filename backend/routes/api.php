@@ -41,6 +41,7 @@ Route::middleware('auth:api')->group(function(){
     Route::apiResource('/aturan', App\Http\Controllers\AturanController::class);
 
     Route::get('/rekam/user', App\Http\Controllers\Diagnosa\DiagnosaUserController::class);
+    Route::post('/diagnosa', [App\Http\Controllers\Diagnosa\DiagnosaUserController::class, 'diagnosa'])->name('diagnosa');
     Route::apiResource('/rekam', App\Http\Controllers\RekamMedisController::class);
     
 });
